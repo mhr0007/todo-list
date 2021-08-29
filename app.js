@@ -13,7 +13,7 @@ app.use(express.urlencoded({
   extended: true
 }));
 app.use(express.json());
-app.use(express.static("public"))
+app.use(express.static("public"));
 
 mongoose.connect("mongodb+srv://admin-mhr:mhr(1475963)@cluster0.mg7ta.mongodb.net/toDoListDb");
 
