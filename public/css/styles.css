@@ -10,9 +10,16 @@ h1 {
   padding: 10px;
 }
 
+h3 {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  margin-top: -20px;
+}
+
 .box {
   max-width: 400px;
-  margin: 50px auto;
+  margin: 30px auto;
   background: white;
   border-radius: 5px;
   box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
@@ -64,8 +71,15 @@ button {
   background-color: #A683E3;
   color: #fff;
   font-size: 30px;
-  padding-bottom: 6px;
   border-width: 0;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
 }
 
 input[type="text"] {

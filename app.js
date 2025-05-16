@@ -1,7 +1,7 @@
 //jshint esversion:6
 
 const express = require("express");
-// const date = require(__dirname + "/date.js");
+const date = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
 const _ = require("lodash");
 
@@ -15,7 +15,7 @@ app.use(express.urlencoded({
 app.use(express.json());
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://admin-mhr:mhr(1475963)@cluster0.mg7ta.mongodb.net/toDoListDb");
+mongoose.connect("mongodb://localhost:27017/toDoListDb");
 
 const itemsSchema = {
   name: String
@@ -44,9 +44,9 @@ const listSchema = {
 
 const List = mongoose.model("List", listSchema);
 
-app.get("/", function (req, res) {
+const day = date.getDate();
 
-  // const day = date.getDate();
+app.get("/", function (req, res) {
 
   Item.find({}, function (err, foundItems) {
     if (foundItems.length === 0) {
@@ -61,6 +61,7 @@ app.get("/", function (req, res) {
 
     } else res.render("list", {
       listTitle: "Today",
+      day: day,
       newListItems: foundItems
     });
 
@@ -70,7 +71,7 @@ app.get("/", function (req, res) {
 
 app.post("/", function (req, res) {
 
-  const itemName = req.body.newItem;
+  // const itemName = req.body.newItem;
   const listName = req.body.list;
 
   const item = new Item({
@@ -79,7 +80,7 @@ app.post("/", function (req, res) {
 
   if(listName === "Today"){
     item.save();
-    res.redirect("/");
+    res.redirect("/", {day: day});
   } else {
     List.findOne({name: listName}, function (err, foundList){
       foundList.items.push(item);
@@ -124,7 +125,8 @@ app.get("/:customListName", function (req, res) {
       if (foundList) {
         res.render("list", {
           listTitle: foundList.name,
-          newListItems: foundList.items
+          newListItems: foundList.items,
+          day: day
         });
       } else {
         const list = new List({
@@ -143,9 +145,9 @@ app.get("/:customListName", function (req, res) {
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = 3000;
+  port = 3999;
 }
 
 app.listen(port, function () {
-  console.log("Server Started Successfully !");
+  console.log("Server Started Successfully on port: " + port);
 });
